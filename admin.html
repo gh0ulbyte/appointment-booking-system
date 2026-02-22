@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Turnos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-page">
+    <div class="container">
+        <header class="admin-header">
+            <h1>🔐 Panel de Administración</h1>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-secondary">Volver al Inicio</a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Estadísticas Generales -->
+            <div class="admin-stats">
+                <div class="admin-stat-card">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-content">
+                        <h3>Emprendimientos Activos</h3>
+                        <p class="stat-value" id="total-active">0</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card warning">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-content">
+                        <h3>Por Pagar</h3>
+                        <p class="stat-value" id="total-to-pay">0</p>
+                        <p class="stat-label">Bono agotado</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card success">
+                    <div class="stat-icon">🎁</div>
+                    <div class="stat-content">
+                        <h3>Con Bono</h3>
+                        <p class="stat-value" id="total-with-bonus">0</p>
+                        <p class="stat-label">Usando bono</p>
+                    </div>
+                </div>
+                <div class="admin-stat-card premium">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-content">
+                        <h3>Premium</h3>
+                        <p class="stat-value" id="total-premium">0</p>
+                        <p class="stat-label">Plan pagado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="admin-filters">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterEntrepreneurs('all')">Todos</button>
+                    <button class="filter-tab" onclick="filterEntrepreneurs('to-pay')">Por Pagar</button>
+                    <button class="filter-tab" onclick="filterEntrepreneurs('with-bonus')">Con Bono</button>
+                    <button class="filter-tab" onclick="filterEntrepreneurs('premium')">Premium</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="admin-search" placeholder="Buscar emprendimiento..." onkeyup="searchEntrepreneurs()">
+                </div>
+            </div>
+
+            <!-- Lista de Emprendimientos -->
+            <div class="entrepreneurs-section">
+                <h2>Emprendimientos</h2>
+                <div id="entrepreneurs-list" class="entrepreneurs-grid">
+                    <!-- Los emprendimientos se cargarán aquí -->
+                </div>
+                <div id="no-entrepreneurs" class="no-data" style="display: none;">
+                    <p>No hay emprendimientos registrados</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Emprendedor - Turnos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="emprendedor.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="emprendedor-page">
+    <div class="container">
+        <header class="emprendedor-header">
+            <h1>Panel del Emprendedor</h1>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-secondary">Volver a Reservar</a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Estadísticas del Plan -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3 id="plan-status-text">Plan Gratuito</h3>
+                        <p class="stat-value" id="turns-used">0</p>
+                        <p class="stat-label">de 60 turnos del bono utilizados</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-content">
+                        <h3>Turnos Activos</h3>
+                        <p class="stat-value" id="active-bookings-count">0</p>
+                        <p class="stat-label">reservas confirmadas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-content">
+                        <h3>Turnos Cancelados</h3>
+                        <p class="stat-value" id="cancelled-bookings-count">0</p>
+                        <p class="stat-label">cancelaciones</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros y Búsqueda -->
+            <div class="filters-section">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all" onclick="filterBookings('all')">Todos</button>
+                    <button class="filter-tab" data-filter="active" onclick="filterBookings('active')">Activos</button>
+                    <button class="filter-tab" data-filter="cancelled" onclick="filterBookings('cancelled')">Cancelados</button>
+                    <button class="filter-tab" data-filter="past" onclick="filterBookings('past')">Pasados</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Buscar por nombre, email o ID..." onkeyup="searchBookings()">
+                </div>
+            </div>
+
+            <!-- Lista de Turnos -->
+            <div class="bookings-section">
+                <h2>Turnos Reservados</h2>
+                <div id="bookings-list" class="bookings-grid">
+                    <!-- Los turnos se cargarán aquí -->
+                </div>
+                <div id="no-bookings" class="no-bookings" style="display: none;">
+                    <p>No hay turnos para mostrar</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="emprendedor.js"></script>
+</body>
+</html>
+

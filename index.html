@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva tu Turno - Miradas Eternas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google API -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tu emprendimiento</h1>
+            <p class="subtitle">Reserva tu turno de forma fácil y rápida</p>
+            <div class="header-links" style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="emprendedor.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.9rem; text-decoration: none;">Panel Emprendedor</a>
+                <a href="admin.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.9rem; text-decoration: none;">Panel Admin</a>
+            </div>
+            <!-- Botón de autenticación Google -->
+            <div id="google-auth-container" class="google-auth-container">
+                <div id="google-signin-button"></div>
+                <div id="user-info" class="user-info" style="display: none;">
+                    <span id="user-name"></span>
+                    <button id="sign-out-btn" class="btn-sign-out">Cerrar sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="booking-container">
+                <!-- Paso 1: Selección de Fecha -->
+                <div class="step active" id="step1">
+                    <h2>1. Selecciona una fecha</h2>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button class="nav-btn" id="prevMonth">&lt;</button>
+                            <h3 id="currentMonth"></h3>
+                            <button class="nav-btn" id="nextMonth">&gt;</button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid"></div>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Selección de Horario -->
+                <div class="step" id="step2">
+                    <h2>2. Selecciona un horario</h2>
+                    <div class="time-slots" id="timeSlots"></div>
+                </div>
+
+                <!-- Paso 3: Datos del Cliente -->
+                <div class="step" id="step3">
+                    <h2>3. Completa tus datos</h2>
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label for="name">Nombre completo *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Servicio *</label>
+                            <select id="service" name="service" required>
+                                <option value="">Selecciona un servicio</option>
+                                <option value="consulta">Consulta</option>
+                                <option value="tratamiento">Tratamiento</option>
+                                <option value="seguimiento">Seguimiento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Notas adicionales (opcional)</label>
+                            <textarea id="notes" name="notes" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="backToTime">Atrás</button>
+                            <button type="submit" class="btn btn-primary">Confirmar Turno</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Paso 4: Confirmación -->
+                <div class="step" id="step4">
+                    <div class="confirmation">
+                        <div class="check-icon">✓</div>
+                        <h2>¡Turno Confirmado!</h2>
+                        <div class="booking-details" id="bookingDetails"></div>
+                        <p class="confirmation-text">Recibirás un email de confirmación con los detalles de tu turno.</p>
+                        <button class="btn btn-primary" id="newBooking">Reservar otro turno</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen lateral -->
+            <div class="summary" id="summary">
+                <!-- Estado del Plan -->
+                <div class="plan-section">
+                    <div class="plan-header">
+                        <span id="plan-status" class="plan-status plan-free">Plan Gratuito</span>
+                        <button id="upgrade-plan-btn" class="btn-upgrade" style="display: none;">Actualizar</button>
+                    </div>
+                    <div id="turns-remaining" class="turns-remaining">60 de 60 turnos del bono restantes</div>
+                </div>
+
+                <h3>Resumen de tu turno</h3>
+                <div class="summary-item">
+                    <span class="label">Fecha:</span>
+                    <span class="value" id="summaryDate">-</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Hora:</span>
+                    <span class="value" id="summaryTime">-</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Servicio:</span>
+                    <span class="value" id="summaryService">-</span>
+                </div>
+
+                <!-- Mis Turnos -->
+                <div class="my-bookings-section" style="margin-top: 30px; padding-top: 25px; border-top: 2px solid var(--border-color);">
+                    <h3 style="margin-bottom: 15px;">Mis Turnos Reservados</h3>
+                    <div id="my-bookings-list" class="bookings-list">
+                        <!-- Los turnos se cargarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal de Límite Alcanzado -->
+        <div id="limit-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeLimitModal()">&times;</span>
+                <div class="modal-icon">⚠️</div>
+                <h2>Bono de Turnos Agotado</h2>
+                <p>Has utilizado tus <strong>60 turnos gratuitos</strong> del bono de bienvenida.</p>
+                <p>Para continuar recibiendo turnos, actualiza a nuestro <strong>Plan Premium mensual</strong> con turnos ilimitados.</p>
+                <div class="modal-features">
+                    <div class="feature-item">✓ Turnos ilimitados</div>
+                    <div class="feature-item">✓ Sincronización con Google Calendar</div>
+                    <div class="feature-item">✓ Soporte prioritario</div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeLimitModal()">Cerrar</button>
+                    <button class="btn btn-primary" onclick="upgradeToPaidPlan()">Actualizar a Premium</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
