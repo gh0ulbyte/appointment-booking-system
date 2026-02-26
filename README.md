@@ -20,4 +20,4 @@ This project focuses on frontend architecture and user experience for a scheduli
 - Vanilla JavaScript
 - Google Fonts
 
-## 📂 Project Structure
+
